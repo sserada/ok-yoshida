@@ -31,3 +31,20 @@ function doPost(e) {
   //Requests to LINE Messaging API and replies to posts from users
   UrlFetchApp.fetch(url, options);
 }
+
+function save_date() {
+    const sheet_id = '';
+    const sheet_name = '1';
+
+    const sheet = SpreadsheetApp.openById(sheet_id).getSheetByName(sheet_name);
+
+    const now = new Date();
+    const nowEpoc = now.getTime();
+    const nowYear = now.getYear();
+    const nowMonth = now.getMonth();
+    const nowDate = now.getDate();
+    const nowString = now.toLocaleString();
+    const addArray = [nowString, nowYear + 1900, nowMonth + 1, nowDate, nowEpoc];
+
+    sheet.appendRow(addArray);
+}
