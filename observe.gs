@@ -20,6 +20,8 @@ function doPost(e) {
     replyMessage = watering_record();
   } else if (userMessage == checking_message) {
     replyMessage = info_watering();
+  } else {
+    replyMessage = info_elapsed();
   }
   //Payload value to be set when making an API request
   let payload = {
@@ -121,3 +123,50 @@ function info_watering() {
   // Return message
   return replyMessage;
 }
+
+// Function to inform elapsed date
+function info_elapsed() {
+  // Get datetime info
+  const now = new Date();
+  const nowEpoc = now.getTime();
+
+  // Spreadsheet info
+  const sheet_id = '';
+  let sheet_name = now.getYear() + 1900;
+
+  // Open spreadsheet
+  const spreadsheet = SpreadsheetApp.openById(sheet_id);
+
+  // Search the last sheet name
+  const sheets = spreadsheet.getSheets();
+  let flg = 0;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getSheetName() == sheet_name) {
+      flg = 1;
+      break;
+    }
+  }
+  if (flg == 0) {
+    sheet_name--;
+  }
+
+  // Open the last sheet
+  let sheet = spreadsheet.getSheetByName(sheet_name);
+
+  // Number of rows and columns
+  let rows = sheet.getLastRow();
+  let columns = sheet.getLastColumn();
+
+  // Specify range
+  let range = sheet.getRange(rows, 1, 1, columns);
+  let values = range.getValues();
+
+  // Calculate elapsed date
+  let elapsed = Math.trunc((values[0][4] - nowEpoc) / 86400000);
+
+  // Reply elapsed date
+  let replyMessage = 'Elapsed' + elapsed + 'days since last watering!!!!';
+
+  return replyMessage
+}
+
