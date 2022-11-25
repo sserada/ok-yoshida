@@ -87,7 +87,7 @@ function watering_record() {
 function info_watering() {
   // Get current year
   const now = new Date();
-  var sheet_name = now.getYear() + 1900;
+  let sheet_name = now.getYear() + 1900;
 
   // Open spreadsheet
   const sheet_id = '';
@@ -95,7 +95,7 @@ function info_watering() {
 
   // Search the last sheet name
   const sheets = spreadsheet.getSheets();
-  var flg = 0;
+  let flg = 0;
   for(var i = 0; i < sheets.length; i++) {
     if(sheets[i].getSheetName() == sheet_name) {
       flg = 1;
@@ -107,18 +107,18 @@ function info_watering() {
   }
 
   // Open the last sheet
-  var sheet = spreadsheet.getSheetByName(sheet_name);
+  let sheet = spreadsheet.getSheetByName(sheet_name);
 
   // Number of rows and columns
-  var rows = sheet.getLastRow();
-  var columns = sheet.getLastColumn();
+  let rows = sheet.getLastRow();
+  let columns = sheet.getLastColumn();
 
   // Specify range
-  var range = sheet.getRange(rows, 1, 1, columns);
-  var values = range.getValues();
+  let range = sheet.getRange(rows, 1, 1, columns);
+  let values = range.getValues();
 
   // Reply recent watering date
-  var replyMessage = 'The most resent watering date is ' + values[0][2] + '/' + values[0][3] + '!!!!';
+  let replyMessage = 'The most resent watering date is ' + values[0][2] + '/' + values[0][3] + '!!!!';
 
   // Return message
   return replyMessage;
@@ -165,8 +165,9 @@ function info_elapsed() {
   let elapsed = Math.trunc((values[0][4] - nowEpoc) / 86400000);
 
   // Reply elapsed date
-  let replyMessage = 'Elapsed' + elapsed + 'days since last watering!!!!';
+  let replyMessage = 'Elapsed ' + elapsed + ' days since last watering!!!!';
 
+  // Return elapsed date
   return replyMessage
 }
 
