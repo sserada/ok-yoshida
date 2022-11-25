@@ -34,7 +34,7 @@ function doPost(e) {
 
 function save_date() {
     const sheet_id = '';
-    const sheet_name = '1';
+    const sheet_name = '';
 
     const sheet = SpreadsheetApp.openById(sheet_id).getSheetByName(sheet_name);
 
@@ -47,4 +47,19 @@ function save_date() {
     const addArray = [nowString, nowYear + 1900, nowMonth + 1, nowDate, nowEpoc];
 
     sheet.appendRow(addArray);
+}
+
+function info_watering() {
+    const sheet_id = '';
+    const sheet_name = '';
+
+    const sheet = SpreadsheetApp.openById(sheet_id).getSheetByName(sheet_name);
+    
+    var rows = sheet.getLastRow();
+    var columns = sheet.getLastColumn();
+    var range = sheet.getRange(rows,1,1,columns);
+    var values = range.getValues();
+
+    var message = 'The most resent watering date is ' + values[0][0];
+
 }
