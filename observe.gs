@@ -42,24 +42,37 @@ function doPost(e) {
 
 // Function to record watering in spreadsheet
 function watering_record() {
-  // Spreadsheet info
-  const sheet_id = '';
-  const sheet_name = '';
-
-  // Open spreadsheet
-  const sheet = SpreadsheetApp.openById(sheet_id).getSheetByName(sheet_name);
-
   // Get datetime info
   const now = new Date();
   const nowEpoc = now.getTime();
-  const nowYear = now.getYear();
-  const nowMonth = now.getMonth();
+  const nowYear = now.getYear() + 1900;
+  const nowMonth = now.getMonth() + 1;
   const nowDate = now.getDate();
   const nowString = now.toLocaleString();
-  const addArray = [nowString, nowYear + 1900, nowMonth + 1, nowDate, nowEpoc];
+  const addArray = [nowString, nowYear, nowMonth, nowDate, nowEpoc];
 
-  // Append info in sheet
-  sheet.appendRow(addArray);
+  // Open spreadsheet
+  const sheet_id = '';
+  const sheet_name = nowYear;
+  const spreadsheet = SpreadsheetApp.openById(sheet_id);
+
+  // Append info in sheet of the current year
+  const sheets = spreadsheet.getSheets();
+  let flg = 0;
+  for(let i = 0; i < sheets.length; i++) {
+    if(sheets[i].getSheetName() == sheet_name) {
+      flg = 1;
+      break;
+    }
+  }
+  if(flg == 0) {
+    let sheet = spreadsheet.insertSheet();
+    sheet.setName(sheet_name);
+    sheet.appendRow(addArray);
+  } else {
+    let sheet = spreadsheet.getSheetByName(sheet_name);
+    sheet.appendRow(addArray);
+  }
 
   // Inform record
   let replyMessage = 'record watering!!!!';
